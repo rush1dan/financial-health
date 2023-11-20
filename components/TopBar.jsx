@@ -5,6 +5,7 @@ import React, { useContext } from 'react'
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const TopBar = (props) => {
     const {selectedPage, setSelectedPage} = useContext(PageContext);
@@ -18,7 +19,14 @@ const TopBar = (props) => {
     return (
         <div className='w-full h-16 px-8 shadow-sm shadow-black'>
             <div className='w-full h-full flex flex-row items-center justify-between gap-x-12'>
-                <p>FinHealth</p>
+                <Link href={'/'} className='flex flex-row items-center justify-center gap-x-1'>
+                    <div className='w-8 h-8 relative'>
+                        <Image src={'/FinLogo_Circle.png'} alt='logo' fill />
+                    </div>
+                    <div className='font-semibold text-lg text-gray-400'>
+                        FinHealth
+                    </div>
+                </Link>
                 <div className='flex flex-row items-center justify-center gap-x-10'>
                     <button onClick={() => setSelectedPage('Monthly')}
                         className={`${selectedPage === 'Monthly' ? 'font-bold text-gray-800' : 'font-semibold text-gray-400 hover:text-gray-600'}`}>
