@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import Dropdown from './Dropdown'
 import Image from 'next/image'
-import { apiPath, getFormattedDate } from '@/lib/utils'
+import { FetchStatus, apiPath, getFormattedDate } from '@/lib/utils'
 import axios from 'axios'
+import ActionButton from './ActionButton'
 
-const AddForm = () => {
-    //const [transactionType, setTransactionType] = useState('income');
-
+const AddForm = ({onTransactionAdded}) => {
     const initialData = {
         date: getFormattedDate(new Date()),
         type: 'Income',
@@ -15,17 +14,22 @@ const AddForm = () => {
     }
 
     const [transactionData, setTransactionData] = useState(initialData);
+    const [fetchState, setFetchState] = useState(FetchStatus.none);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+        setFetchState(FetchStatus.pending);
         try {
             const response = await axios.post(apiPath('transaction/'), transactionData);
-            console.log(response);
+            if (response.status === 201) {
+                setFetchState(FetchStatus.success);
+            }
             
             e.target.reset();
+            onTransactionAdded?.(response.data);
         } catch (error) {
             console.log(error.message);
+            setFetchState(FetchStatus.error);
         }
     }
 
@@ -66,7 +70,8 @@ const AddForm = () => {
                         onChange={(e) => setTransactionData({ ...transactionData, amount: Number(e.target.value).toFixed(2) })}
                     />
                 </div>
-                <button type='submit' className='w-24 h-12 text-xl font-semibold bg-blue-500 text-white rounded-md'>Add</button>
+                <ActionButton buttonType='submit' className='w-24 h-12 text-xl font-semibold bg-blue-500 text-white rounded-md'
+                    isPending={fetchState === FetchStatus.pending}>Add</ActionButton>
             </form>
         </div>
     )

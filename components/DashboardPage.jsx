@@ -4,9 +4,10 @@ import PageContext from '@/state/PageContext'
 import React, { useContext, useEffect, useState } from 'react'
 import Popup from './Popup';
 import AddForm from './AddForm';
-import { apiPath } from '@/lib/utils';
+import { FetchStatus, apiPath } from '@/lib/utils';
 import TransactionRecord from './TransactionRecord';
 import axios from 'axios';
+import LoadingWrapper from './LoadingWrapper';
 
 const DashboardPage = () => {
     const { selectedPage } = useContext(PageContext);
@@ -15,24 +16,28 @@ const DashboardPage = () => {
 
     const [transactions, setTransactions] = useState([]);
 
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
+    const [fetchState, setFetchState] = useState(FetchStatus.none);
 
-    const getTransactions = async () => {
+    const getTransactions = async (route) => {
         try {
-            const response = await axios.get(apiPath(`transaction/${year}/`));
-            console.log(response);
+            setFetchState(FetchStatus.pending);
+            const response = await axios.get(apiPath(`transaction/${route}/`));
             if (response.status === 200) {
                 setTransactions(response.data);
+                setFetchState(FetchStatus.success);
             }
         } catch (error) {
             console.log(error.message);
+            setFetchState(FetchStatus.error);
         }
     }
+
     useEffect(() => {
-        getTransactions();
-    }, []);
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        getTransactions(selectedPage === 'Monthly' ? `${year}/${month}` : `${year}`);
+    }, [selectedPage]);
 
     return (
         <div className='w-full h-full'>
@@ -69,19 +74,24 @@ const DashboardPage = () => {
                 {
                     addFormOpened &&
                     <Popup className={'w-[32rem] rounded-xl h-[32rem] bg-white overflow-clip'} onClosed={() => setOpenAddForm(false)} popUpHeader={'Add Record'} hidden={!addFormOpened}>
-                        <AddForm />
+                            <AddForm onTransactionAdded={(t) => { setOpenAddForm(false); setTransactions([t, ...transactions]) }} />
                     </Popup>
                 }
 
-                <div className='w-full h-fit'>
-                    {
-                        transactions.map((transactionData, index) => {
-                            return (
-                                <TransactionRecord transactionData={transactionData} key={transactionData._id}/>
-                            )
-                        })
-                    }
-                </div>
+                <div className='mt-8'></div>
+
+                {/* Transactions */}
+                <LoadingWrapper fetchState={fetchState}>
+                    <div className='w-full h-fit'>
+                        {
+                            transactions.map((transactionData, index) => {
+                                return (
+                                    <TransactionRecord transactionData={transactionData} key={transactionData._id} />
+                                )
+                            })
+                        }
+                    </div>
+                </LoadingWrapper>
             </div>
         </div>
     )
