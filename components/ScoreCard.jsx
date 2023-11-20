@@ -8,7 +8,7 @@ const ScoreCard = ({ transactions }) => {
         setScore(getFinancialScore(income, expense, asset, debt));
     }, [transactions]);
     return (
-        <div className='w-full h-full shadow-lg shadow-gray-600/20'>
+        <div className='w-full h-full shadow-lg shadow-gray-600/20 flex flex-col items-center justify-center'>
             {
                 transactions.length > 0 ? 
                     (
