@@ -1,4 +1,4 @@
-import { connectToMongoDB, disconnectFromMongoDB } from "@/lib/mongodb";
+import { addTransaction, connectToMongoDB, disconnectFromMongoDB } from "@/lib/mongodb";
 import User from "@/models/user";
 import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
@@ -13,25 +13,15 @@ export async function POST(req) {
             return new NextResponse('Missing Info', { status: 400 });
         }
 
-        transactionData.date = new Date(transactionData.date);
-
+        
         const secret = process.env.NEXTAUTH_SECRET
         const token = await getToken({ req, secret });
-
+        
         const userId = token.id;
-
+        
         await connectToMongoDB();
-
-        const user = await User.findById(userId);
-        transactionData.user = user;
-        const transaction = await Transaction.create(transactionData);
-
-        if (transactionData.type === 'Asset') {
-            user.asset += transactionData.amount;
-        } else if (transactionData.type === 'Debt') {
-            user.debt += transactionData.debt;
-        }
-        await user.save();
+        
+        const transaction = addTransaction(userId, transactionData);
 
         console.log("Transaction Created Successfully");
         return new NextResponse(JSON.stringify(transaction), { status: 201 });
