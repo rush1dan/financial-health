@@ -1,14 +1,38 @@
 'use client'
 
 import PageContext from '@/state/PageContext'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Popup from './Popup';
 import AddForm from './AddForm';
+import { apiPath } from '@/lib/utils';
+import TransactionRecord from './TransactionRecord';
+import axios from 'axios';
 
 const DashboardPage = () => {
     const { selectedPage } = useContext(PageContext);
 
     const [addFormOpened, setOpenAddForm] = useState(false);
+
+    const [transactions, setTransactions] = useState([]);
+
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+
+    const getTransactions = async () => {
+        try {
+            const response = await axios.get(apiPath(`transaction/${year}/${month}`));
+            console.log(response);
+            if (response.status === 200) {
+                setTransactions(response.data);
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+    useEffect(() => {
+        getTransactions();
+    }, []);
 
     return (
         <div className='w-full h-full'>
@@ -48,6 +72,16 @@ const DashboardPage = () => {
                         <AddForm />
                     </Popup>
                 }
+
+                <div className='w-full h-fit'>
+                    {
+                        transactions.map((transactionData, index) => {
+                            return (
+                                <TransactionRecord transactionData={transactionData} key={transactionData._id}/>
+                            )
+                        })
+                    }
+                </div>
             </div>
         </div>
     )

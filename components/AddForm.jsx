@@ -18,14 +18,15 @@ const AddForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        e.target.reset();
         
-        const response = await axios.post(apiPath('transaction/'), transactionData, {
-            headers: {
-                Authorization: `Bearer ungabunga`
-            }
-        });
-        console.log(response);
+        try {
+            const response = await axios.post(apiPath('transaction/'), transactionData);
+            console.log(response);
+            
+            e.target.reset();
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
     return (
