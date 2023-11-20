@@ -4,6 +4,7 @@ import PageContext from '@/state/PageContext';
 import React, { useContext } from 'react'
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 const TopBar = (props) => {
     const {selectedPage, setSelectedPage} = useContext(PageContext);
@@ -15,19 +16,25 @@ const TopBar = (props) => {
     }
 
     return (
-        <div className='w-full h-16 px-8 bg-blue-400'>
+        <div className='w-full h-16 px-8 shadow-sm shadow-black'>
             <div className='w-full h-full flex flex-row items-center justify-between gap-x-12'>
-                <p>Finealth</p>
-                <div className='flex flex-row items-center justify-center gap-x-6'>
-                    <button onClick={() => setSelectedPage('Monthly')} className={selectedPage === 'Monthly' ? 'font-bold' : ''}>
+                <p>FinHealth</p>
+                <div className='flex flex-row items-center justify-center gap-x-10'>
+                    <button onClick={() => setSelectedPage('Monthly')}
+                        className={`${selectedPage === 'Monthly' ? 'font-bold text-gray-800' : 'font-semibold text-gray-400 hover:text-gray-600'}`}>
                         Monthly
                     </button>
-                    <button onClick={() => setSelectedPage('Yearly')} className={selectedPage === 'Yearly' ? 'font-bold' : ''}>
+                    <button onClick={() => setSelectedPage('Yearly')}
+                        className={`${selectedPage === 'Yearly' ? 'font-bold text-gray-800' : 'font-semibold text-gray-400 hover:text-gray-600'}`}>
                         Yearly
                     </button>
                 </div>
-                <button onClick={() => handleSignOut()} className=''>
-                    Logout
+                <button className='flex flex-row items-center justify-center gap-x-2 px-2 py-2 bg-blue-900 
+                hover:bg-blue-950 rounded-full border-2 border-white' onClick={handleSignOut}>
+                    <p className='text-white font-semibold'>Logout</p>
+                    <div className='w-4 h-4 relative'>
+                        <Image src={'/log-out.svg'} alt='logout' fill />
+                    </div>
                 </button>
             </div>
         </div>

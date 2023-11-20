@@ -89,7 +89,7 @@ const DashboardPage = () => {
 
                 {/* Transactions */}
                 <LoadingWrapper fetchState={fetchState}>
-                    <div className='w-full h-fit flex flex-col items-center justify-start gap-y-4'>
+                    <div className='w-full h-fit flex flex-col items-center justify-start gap-y-6'>
                         {
                             transactions.map((transactionData, index) => {
                                 return (
