@@ -1,7 +1,6 @@
-import { connectToMongoDB, disconnectFromMongoDB, getMonthlyTransactions } from "@/lib/mongodb";
+import { connectToMongoDB, disconnectFromMongoDB, getMonthlyTransactions, getYearlyTransactions } from "@/lib/mongodb";
 import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
-import { getStartAndEndDates } from "@/lib/utils";
 
 export const dynamic = 'force-dynamic' // defaults to force-static
 export async function GET(req, {params}) {
@@ -12,7 +11,7 @@ export async function GET(req, {params}) {
         const userId = token.id;
 
         await connectToMongoDB();
-        const transactions = await getMonthlyTransactions(userId, params.month, params.year);
+        const transactions = params.month ? await getMonthlyTransactions(userId, params.month, params.year) : [];
 
         console.log("Transaction Retrieved Successfully");
         return new NextResponse(JSON.stringify(transactions), { status: 200 });

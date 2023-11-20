@@ -21,7 +21,7 @@ const DashboardPage = () => {
 
     const getTransactions = async () => {
         try {
-            const response = await axios.get(apiPath(`transaction/${year}/${month}`));
+            const response = await axios.get(apiPath(`transaction/${year}/`));
             console.log(response);
             if (response.status === 200) {
                 setTransactions(response.data);
