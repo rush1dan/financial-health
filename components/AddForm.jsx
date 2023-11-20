@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import Dropdown from './Dropdown'
-import Image from 'next/image'
 import { FetchStatus, apiPath, getFormattedDate } from '@/lib/utils'
 import axios from 'axios'
 import ActionButton from './ActionButton'

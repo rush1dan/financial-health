@@ -10,6 +10,7 @@ import axios from 'axios';
 import LoadingWrapper from './LoadingWrapper';
 import Dropdown from './Dropdown';
 import ScoreCard from './ScoreCard';
+import Image from 'next/image';
 
 const DashboardPage = () => {
     const { selectedPage } = useContext(PageContext);
@@ -69,8 +70,10 @@ const DashboardPage = () => {
                 </div>
 
                 {/* Add Button */}
-                <button className='block mx-auto w-24 h-10 bg-purple-400 mt-8' onClick={() => setOpenAddForm(true)}>
-                    Add
+                <button className='block mx-auto w-28 h-12 bg-gray-200 hover:bg-gray-300 border-dashed border-2 border-gray-400 rounded-lg mt-8 py-1' onClick={() => setOpenAddForm(true)}>
+                    <div className='h-full aspect-square relative block mx-auto'>
+                        <Image src='/plus.svg' alt='add' fill />
+                    </div>
                 </button>
 
                 {
