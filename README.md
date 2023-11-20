@@ -20,7 +20,12 @@ This is a full stack financial health indicator app.
 - Circular progress bar around score
 
 ## Dev
-First, run the development server:
+First, install necessary packages:
+```bash
+npm install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
