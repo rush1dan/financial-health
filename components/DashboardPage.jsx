@@ -65,7 +65,9 @@ const DashboardPage = () => {
 
                     </div> */}
                     <div className="w-full max-w-[32rem] aspect-video">
-                        <ScoreCard />
+                        <LoadingWrapper fetchState={fetchState}>
+                            <ScoreCard transactions={transactions}/>
+                        </LoadingWrapper>
                     </div>
                 </div>
 
