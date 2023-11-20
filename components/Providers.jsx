@@ -1,12 +1,16 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { SessionProvider } from 'next-auth/react'
+import PageContext from '@/state/PageContext';
 
 const Providers = ({ children }) => {
+    const [selectedPage, setSelectedPage] = useState('Monthly');
     return (
         <SessionProvider>
-            {children}
+            <PageContext.Provider value={{ selectedPage, setSelectedPage }} >
+                {children}
+            </PageContext.Provider>
         </SessionProvider>
     )
 }
