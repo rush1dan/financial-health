@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import Dropdown from './Dropdown'
 import Image from 'next/image'
-import { getFormattedDate } from '@/lib/utils'
+import { apiPath, getFormattedDate } from '@/lib/utils'
+import axios from 'axios'
 
 const AddForm = () => {
     //const [transactionType, setTransactionType] = useState('income');
@@ -18,7 +19,13 @@ const AddForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         e.target.reset();
-        console.log(transactionData);
+        
+        const response = await axios.post(apiPath('transaction/'), transactionData, {
+            headers: {
+                Authorization: `Bearer ungabunga`
+            }
+        });
+        console.log(response);
     }
 
     return (

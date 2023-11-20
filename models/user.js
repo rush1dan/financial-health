@@ -16,9 +16,11 @@ const userSchema = new Schema(
         },
         asset: {
             type: Number,
+            default: 0
         },
         debt: {
             type: Number,
+            default: 0
         }
     },
     {
