@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-const Dropdown = ({ className, buttonClass, title, forceUseTitle, options, defaultOption, setOption }) => {
+const Dropdown = ({ className, title, forceUseTitle, options, defaultOption, setOption }) => {
     const [open, setOpen] = useState(false);
     const [thisOption, setThisOption] = useState(forceUseTitle ? '' : defaultOption);
     useEffect(() => {
@@ -22,7 +22,7 @@ const Dropdown = ({ className, buttonClass, title, forceUseTitle, options, defau
                     </svg>
                 </button>
                 <div id="dropdown" className={`${!open && 'hidden'} w-full z-10 divide-y divide-gray-100 rounded-lg shadow bg-gray-50
-                    absolute top-full left-0`}>
+                    absolute top-full left-0 max-h-56 overflow-y-auto`}>
                     <ul className="py-2 text-sm text-gray-800">
                         {
                             options.map((option, index) => {

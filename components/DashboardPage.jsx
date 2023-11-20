@@ -4,10 +4,11 @@ import PageContext from '@/state/PageContext'
 import React, { useContext, useEffect, useState } from 'react'
 import Popup from './Popup';
 import AddForm from './AddForm';
-import { FetchStatus, apiPath } from '@/lib/utils';
+import { FetchStatus, apiPath, getMonthFromNumber, getMonthNumFromMonth, getYears, months } from '@/lib/utils';
 import TransactionRecord from './TransactionRecord';
 import axios from 'axios';
 import LoadingWrapper from './LoadingWrapper';
+import Dropdown from './Dropdown';
 
 const DashboardPage = () => {
     const { selectedPage } = useContext(PageContext);
@@ -32,12 +33,12 @@ const DashboardPage = () => {
         }
     }
 
+    const [selectedMonth, setSelectedMonth] = useState(new Date().getUTCMonth() + 1);
+    const [selectedYear, setSelectedYear] = useState(new Date().getUTCFullYear());
+
     useEffect(() => {
-        const date = new Date();
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        getTransactions(selectedPage === 'Monthly' ? `${year}/${month}` : `${year}`);
-    }, [selectedPage]);
+        getTransactions(selectedPage === 'Monthly' ? `${selectedYear}/${selectedMonth}` : `${selectedYear}`);
+    }, [selectedPage, selectedMonth, selectedYear]);
 
     return (
         <div className='w-full h-full'>
@@ -47,13 +48,13 @@ const DashboardPage = () => {
                 <div className="w-full py-4 flex flex-row items-center justify-start gap-x-4">
                     {
                         selectedPage === 'Monthly' &&
-                        <button className="w-32 h-12 bg-yellow-200 text-xl font-semibold rounded-full">
-                            Jan
-                        </button>
+                        <Dropdown className="w-32 h-12" forceUseTitle={false} defaultOption={getMonthFromNumber(selectedMonth)}
+                            options={months} setOption={(option) => setSelectedMonth(getMonthNumFromMonth(option))}>
+                        </Dropdown>
                     }
-                    <button className="w-32 h-12 bg-yellow-200 text-xl font-semibold rounded-full">
-                        2023
-                    </button>
+                    <Dropdown className="w-32 h-12" forceUseTitle={false} defaultOption={selectedYear}
+                            options={getYears(50)} setOption={(option) => setSelectedYear(Number(option))}>
+                    </Dropdown>
                 </div>
 
                 {/* Chart + Score section */}
