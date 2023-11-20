@@ -9,6 +9,7 @@ import TransactionRecord from './TransactionRecord';
 import axios from 'axios';
 import LoadingWrapper from './LoadingWrapper';
 import Dropdown from './Dropdown';
+import ScoreCard from './ScoreCard';
 
 const DashboardPage = () => {
     const { selectedPage } = useContext(PageContext);
@@ -41,7 +42,7 @@ const DashboardPage = () => {
     }, [selectedPage, selectedMonth, selectedYear]);
 
     return (
-        <div className='w-full h-full'>
+        <div className='w-full h-full overflow-y-auto'>
             <div className="block mx-auto w-full max-w-7xl min-h-full px-12 py-4">
 
                 {/* Month and Year Button */}
@@ -58,12 +59,12 @@ const DashboardPage = () => {
                 </div>
 
                 {/* Chart + Score section */}
-                <div className="w-full flex flex-row justify-between">
-                    <div className="w-full aspect-video bg-green-400">
+                <div className="w-full flex flex-row items-center justify-center">
+                    {/* <div className="w-full aspect-video bg-green-400">
 
-                    </div>
-                    <div className="w-full aspect-video bg-blue-400">
-
+                    </div> */}
+                    <div className="w-full max-w-[32rem] aspect-video">
+                        <ScoreCard />
                     </div>
                 </div>
 
@@ -83,7 +84,7 @@ const DashboardPage = () => {
 
                 {/* Transactions */}
                 <LoadingWrapper fetchState={fetchState}>
-                    <div className='w-full h-fit'>
+                    <div className='w-full h-fit flex flex-col items-center justify-start gap-y-4'>
                         {
                             transactions.map((transactionData, index) => {
                                 return (

@@ -1,8 +1,6 @@
 import { addTransaction, connectToMongoDB, disconnectFromMongoDB } from "@/lib/mongodb";
-import User from "@/models/user";
 import { NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
-import Transaction from "@/models/transaction";
 
 export async function POST(req) {
     try {
@@ -21,7 +19,7 @@ export async function POST(req) {
         
         await connectToMongoDB();
         
-        const transaction = addTransaction(userId, transactionData);
+        const transaction = await addTransaction(userId, transactionData);
 
         console.log("Transaction Created Successfully");
         return new NextResponse(JSON.stringify(transaction), { status: 201 });
