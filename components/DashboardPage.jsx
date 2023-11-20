@@ -81,7 +81,7 @@ const DashboardPage = () => {
                 {
                     addFormOpened &&
                     <Popup className={'w-[32rem] rounded-xl h-[32rem] bg-white overflow-clip'} onClosed={() => setOpenAddForm(false)} popUpHeader={'Add Record'} hidden={!addFormOpened}>
-                        <AddForm onTransactionAdded={(t) => { setOpenAddForm(false); setTransactions([t, ...transactions]) }} />
+                        <AddForm onTransactionAdded={(t) => { setOpenAddForm(false); }} />
                     </Popup>
                 }
 
