@@ -15,8 +15,8 @@ const TopBar = (props) => {
     }
 
     return (
-        <div className='w-full h-16 px-4 bg-blue-400'>
-            <div className='w-full h-full flex flex-row items-center justify-start gap-x-12 bg-red-200'>
+        <div className='w-full h-16 px-8 bg-blue-400'>
+            <div className='w-full h-full flex flex-row items-center justify-between gap-x-12'>
                 <p>Finealth</p>
                 <div className='flex flex-row items-center justify-center gap-x-6'>
                     <button onClick={() => setSelectedPage('Monthly')} className={selectedPage === 'Monthly' ? 'font-bold' : ''}>
@@ -26,7 +26,7 @@ const TopBar = (props) => {
                         Yearly
                     </button>
                 </div>
-                <button onClick={() => handleSignOut()} className='mr-0'>
+                <button onClick={() => handleSignOut()} className=''>
                     Logout
                 </button>
             </div>

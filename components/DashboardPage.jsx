@@ -1,10 +1,14 @@
 'use client'
 
 import PageContext from '@/state/PageContext'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
+import Popup from './Popup';
+import AddForm from './AddForm';
 
 const DashboardPage = () => {
     const { selectedPage } = useContext(PageContext);
+
+    const [addFormOpened, setOpenAddForm] = useState(false);
 
     return (
         <div className='w-full h-full'>
@@ -32,6 +36,18 @@ const DashboardPage = () => {
 
                     </div>
                 </div>
+
+                {/* Add Button */}
+                <button className='block mx-auto w-24 h-10 bg-purple-400 mt-8' onClick={() => setOpenAddForm(true)}>
+                    Add
+                </button>
+
+                {
+                    addFormOpened &&
+                    <Popup className={'w-[32rem] rounded-xl h-[32rem] bg-white overflow-clip'} onClosed={() => setOpenAddForm(false)} popUpHeader={'Add Record'} hidden={!addFormOpened}>
+                        <AddForm />
+                    </Popup>
+                }
             </div>
         </div>
     )

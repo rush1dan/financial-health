@@ -9,7 +9,7 @@ const transactionSchema = new Schema({
     type: {
         type: String,
         required: true,
-        enum: ['income', 'expense', 'asset', 'debt']
+        enum: ['Income', 'Expense', 'Asset', 'Debt']
     },
     amount: {
         type: Number,
@@ -20,6 +20,9 @@ const transactionSchema = new Schema({
         type: Date,
         required: true,
         //min: new Date('1990-01-01')
+    },
+    description: {
+        type: String,
     }
 });
 

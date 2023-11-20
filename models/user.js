@@ -14,6 +14,12 @@ const userSchema = new Schema(
             type: String,
             required: true
         },
+        asset: {
+            type: Number,
+        },
+        debt: {
+            type: Number,
+        }
     },
     {
         timestamps: true
