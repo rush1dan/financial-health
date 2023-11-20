@@ -55,7 +55,7 @@ const DashboardPage = () => {
                         </Dropdown>
                     }
                     <Dropdown className="w-32 h-12" forceUseTitle={false} defaultOption={selectedYear}
-                            options={getYears(50)} setOption={(option) => setSelectedYear(Number(option))}>
+                        options={getYears(50)} setOption={(option) => setSelectedYear(Number(option))}>
                     </Dropdown>
                 </div>
 
@@ -66,7 +66,7 @@ const DashboardPage = () => {
                     </div> */}
                     <div className="w-full max-w-[32rem] aspect-video">
                         <LoadingWrapper fetchState={fetchState}>
-                            <ScoreCard transactions={transactions}/>
+                            <ScoreCard transactions={transactions} />
                         </LoadingWrapper>
                     </div>
                 </div>
@@ -81,7 +81,7 @@ const DashboardPage = () => {
                 {
                     addFormOpened &&
                     <Popup className={'w-[32rem] rounded-xl h-[32rem] bg-white overflow-clip'} onClosed={() => setOpenAddForm(false)} popUpHeader={'Add Record'} hidden={!addFormOpened}>
-                            <AddForm onTransactionAdded={(t) => { setOpenAddForm(false); setTransactions([t, ...transactions]) }} />
+                        <AddForm onTransactionAdded={(t) => { setOpenAddForm(false); }} />
                     </Popup>
                 }
 
@@ -89,15 +89,21 @@ const DashboardPage = () => {
 
                 {/* Transactions */}
                 <LoadingWrapper fetchState={fetchState}>
-                    <div className='w-full h-fit flex flex-col items-center justify-start gap-y-4'>
-                        {
-                            transactions.map((transactionData, index) => {
-                                return (
-                                    <TransactionRecord transactionData={transactionData} key={transactionData._id} />
-                                )
-                            })
-                        }
-                    </div>
+                    {
+                        transactions.length > 0 ?
+                            <div className='w-full h-fit flex flex-col items-center justify-start gap-y-6'>
+                                {
+                                    transactions.map((transactionData, index) => {
+                                        return (
+                                            <TransactionRecord transactionData={transactionData} key={transactionData._id} />
+                                        )
+                                    })
+                                }
+                            </div> :
+                            <div className='w-full text-center text-2xl font-semibold text-gray-400'>
+                                No records yet
+                            </div>
+                    }
                 </LoadingWrapper>
             </div>
         </div>

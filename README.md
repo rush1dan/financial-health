@@ -1,7 +1,20 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align='center'><h1>Financial Health Indicator App</h1></div>
+<div align='center'> 
+<img src='./public/FinLogo_Circle.png' alt='Picture'>
+</div>
 
-## Getting Started
+<div align='center'><h3><a href="https://rush1dan-financial-health.netlify.app" target="_blank">View Live Demo</a></h3></div>
 
+## About
+This is a full stack financial health indicator app.
+
+## Features
+- User authentication
+- Add transaction record
+- Filter by month or year
+- Get a financial score based on transactions
+
+## Dev
 First, run the development server:
 
 ```bash
@@ -14,23 +27,28 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to use the started application.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Built With
+<div>
+<h4>Front End:</h4>
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+<div>
 
-## Learn More
+![Static Badge](https://img.shields.io/badge/Next.js-a?style=for-the-badge&logo=Next.js&color=494f63)
+![Static Badge](https://img.shields.io/badge/React-a?style=for-the-badge&logo=React&color=494f63)
+![Static Badge](https://img.shields.io/badge/JavaScript-a?style=for-the-badge&logo=JavaScript&color=494f63)
+![Static Badge](https://img.shields.io/badge/TailwindCSS-a?style=for-the-badge&logo=TailwindCSS&color=494f63)
 
-To learn more about Next.js, take a look at the following resources:
+</div>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<h4>Back End:</h4>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+<div>
 
-## Deploy on Vercel
+![Static Badge](https://img.shields.io/badge/Next.js-a?style=for-the-badge&logo=Next.js&color=494f63)
+![Static Badge](https://img.shields.io/badge/JavaScript-a?style=for-the-badge&logo=JavaScript&color=494f63)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+</div>
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+</div>
