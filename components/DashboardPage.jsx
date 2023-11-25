@@ -25,6 +25,7 @@ const DashboardPage = () => {
         try {
             setFetchState(FetchStatus.pending);
             const response = await axios.get(apiPath(`transaction/${route}/`));
+            console.log(response.data);
             if (response.status === 200) {
                 setTransactions(response.data);
                 setFetchState(FetchStatus.success);
