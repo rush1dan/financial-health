@@ -1,7 +1,7 @@
 'use client'
 
 import PageContext from '@/state/PageContext'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import Popup from './Popup';
 import AddForm from './AddForm';
 import { FetchStatus, apiPath, getMonthFromNumber, getMonthNumFromMonth, getYears, months } from '@/lib/utils';
@@ -14,10 +14,12 @@ import Image from 'next/image';
 
 const DashboardPage = () => {
     const { selectedPage } = useContext(PageContext);
+    const monthly = useMemo(() => selectedPage === 'Monthly', [selectedPage]);
 
     const [addFormOpened, setOpenAddForm] = useState(false);
 
-    const [transactions, setTransactions] = useState([]);
+    const [transactionData, setTransactionData] = useState([]);
+    const [graphData, setGraphData] = useState([]);
 
     const [fetchState, setFetchState] = useState(FetchStatus.none);
 
@@ -27,7 +29,8 @@ const DashboardPage = () => {
             const response = await axios.get(apiPath(`transaction/${route}/`));
             console.log(response.data);
             if (response.status === 200) {
-                setTransactions(response.data);
+                setTransactionData(response.data.transactionData);
+                setGraphData(response.data.graphData);
                 setFetchState(FetchStatus.success);
             }
         } catch (error) {
@@ -40,7 +43,7 @@ const DashboardPage = () => {
     const [selectedYear, setSelectedYear] = useState(new Date().getUTCFullYear());
 
     useEffect(() => {
-        getTransactions(selectedPage === 'Monthly' ? `${selectedYear}/${selectedMonth}` : `${selectedYear}`);
+        getTransactions(monthly ? `${selectedYear}/${selectedMonth}` : `${selectedYear}`);
     }, [selectedPage, selectedMonth, selectedYear]);
 
     return (
@@ -50,7 +53,7 @@ const DashboardPage = () => {
                 {/* Month and Year Button */}
                 <div className="w-full py-4 flex flex-row items-center justify-start gap-x-4">
                     {
-                        selectedPage === 'Monthly' &&
+                        monthly &&
                         <Dropdown className="w-32 h-12" forceUseTitle={false} defaultOption={getMonthFromNumber(selectedMonth)}
                             options={months} setOption={(option) => setSelectedMonth(getMonthNumFromMonth(option))}>
                         </Dropdown>
@@ -67,7 +70,7 @@ const DashboardPage = () => {
                     </div> */}
                     <div className="w-full max-w-[32rem] aspect-video">
                         <LoadingWrapper fetchState={fetchState}>
-                            <ScoreCard transactions={transactions} />
+                            <ScoreCard transactions={transactionData} />
                         </LoadingWrapper>
                     </div>
                 </div>
@@ -91,12 +94,18 @@ const DashboardPage = () => {
                 {/* Transactions */}
                 <LoadingWrapper fetchState={fetchState}>
                     {
-                        transactions.length > 0 ?
+                        transactionData.length > 0 ?
                             <div className='w-full h-fit flex flex-col items-center justify-start gap-y-6'>
                                 {
-                                    transactions.map((transactionData, index) => {
+                                    transactionData.map((transaction, i) => {
                                         return (
-                                            <TransactionRecord transactionData={transactionData} key={transactionData._id} />
+                                            <TransactionRecord
+                                                key={transaction._id}
+                                                dateOrMonth={transaction.date}
+                                                transactionDescription={transaction.description}
+                                                transactionType={transaction.type}
+                                                transactionAmount={transaction.amount}
+                                            />
                                         )
                                     })
                                 }
