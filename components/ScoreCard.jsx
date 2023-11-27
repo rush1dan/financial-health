@@ -31,7 +31,7 @@ const ScoreCard = ({ transactions }) => {
         setScore(getFinancialScore(account.income, account.expense, account.asset, account.debt));
     }, [transactions]);
     return (
-        <div className='w-full h-full border-2 border-gray-400 rounded-lg shadow-lg shadow-gray-600/20 flex flex-col items-center justify-center relative'>
+        <div className='w-full h-full border-2 border-gray-400 rounded-lg shadow-lg shadow-gray-600/20 flex flex-col items-center justify-center relative p-4'>
             <div className='absolute w-full text-center top-8 font-semibold'>
                 Score:
             </div>

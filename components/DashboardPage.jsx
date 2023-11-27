@@ -11,6 +11,7 @@ import LoadingWrapper from './LoadingWrapper';
 import Dropdown from './Dropdown';
 import ScoreCard from './ScoreCard';
 import Image from 'next/image';
+import ChartBox from './ChartBox';
 
 const DashboardPage = () => {
     const { selectedPage } = useContext(PageContext);
@@ -64,11 +65,13 @@ const DashboardPage = () => {
                 </div>
 
                 {/* Chart + Score section */}
-                <div className="w-full flex flex-row items-center justify-center">
-                    {/* <div className="w-full aspect-video bg-green-400">
-
-                    </div> */}
-                    <div className="w-full max-w-[32rem] aspect-video">
+                <div className="w-full flex md:flex-row flex-col items-center justify-center md:gap-x-8 gap-y-4">
+                    <div className="w-full max-w-[32rem] h-[20rem]">
+                        <LoadingWrapper fetchState={fetchState}>
+                            <ChartBox graphData={graphData} />
+                        </LoadingWrapper>
+                    </div>
+                    <div className="w-full max-w-[32rem] h-[20rem]">
                         <LoadingWrapper fetchState={fetchState}>
                             <ScoreCard transactions={transactionData} />
                         </LoadingWrapper>
@@ -101,7 +104,7 @@ const DashboardPage = () => {
                                         return (
                                             <TransactionRecord
                                                 key={transaction._id}
-                                                dateOrMonth={transaction.date}
+                                                dateOrMonth={transaction.date.split('T')[0]}
                                                 transactionDescription={transaction.description}
                                                 transactionType={transaction.type}
                                                 transactionAmount={transaction.amount}
