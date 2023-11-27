@@ -20,7 +20,7 @@ const DashboardPage = () => {
     const [addFormOpened, setOpenAddForm] = useState(false);
 
     const [transactionData, setTransactionData] = useState([]);
-    const [graphData, setGraphData] = useState([]);
+    const [graphData, setGraphData] = useState({});
 
     const [fetchState, setFetchState] = useState(FetchStatus.pending);
 
@@ -31,7 +31,7 @@ const DashboardPage = () => {
             console.log(response.data);
             if (response.status === 200) {
                 setTransactionData(response.data.transactionData);
-                setGraphData(response.data.graphData);
+                setGraphData(response.data.graphData[0]);
                 setFetchState(FetchStatus.success);
             }
         } catch (error) {
@@ -44,6 +44,9 @@ const DashboardPage = () => {
     const [selectedYear, setSelectedYear] = useState(new Date().getUTCFullYear());
 
     useEffect(() => {
+        if (!monthly && selectedMonth) {
+            setSelectedMonth(undefined);
+        }
         getTransactions(monthly ? `${selectedYear}/${selectedMonth}` : `${selectedYear}`);
     }, [selectedPage, selectedMonth, selectedYear]);
 
@@ -68,10 +71,10 @@ const DashboardPage = () => {
                     {/* Chart + Score section */}
                     <div className="w-full flex md:flex-row flex-col items-center justify-center md:gap-x-8 gap-y-4">
                         <div className="w-full max-w-[32rem] h-[20rem]">
-                                <ChartBox graphData={graphData} />
+                            <ChartBox graphData={graphData} year={selectedYear} month={selectedMonth}/>
                         </div>
                         <div className="w-full max-w-[32rem] h-[20rem]">
-                                <ScoreCard transactions={transactionData} />
+                            <ScoreCard transactions={transactionData} />
                         </div>
                     </div>
 
