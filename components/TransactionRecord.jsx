@@ -14,7 +14,7 @@ const TransactionRecord = ({ dateOrMonth, transactionDescription, transactionTyp
                 <div className='w-28 font-medium'>
                     {dateOrMonth}
                 </div>
-                <div className='w-96 overflow-x-auto'>
+                <div className='w-96 overflow-x-auto text-sm text-gray-800'>
                     {transactionDescription}
                 </div>
                 <div className='w-24 font-semibold text-center'>
