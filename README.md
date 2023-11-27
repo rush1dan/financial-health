@@ -14,8 +14,18 @@ This is a full stack financial health indicator app.
 - Filter by month or year
 - Get a financial score based on transactions
 
+## Yet To Implement
+- Mobile responsiveness
+- Chart showing transation data
+- Circular progress bar around score
+
 ## Dev
-First, run the development server:
+First, install necessary packages:
+```bash
+npm install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev

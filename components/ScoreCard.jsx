@@ -1,5 +1,5 @@
 import { getFinancialScore, getTotalAmounts } from '@/lib/utils';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, memo } from 'react'
 
 function getColorRGB(value) {
     // Ensure the input value is within the valid range (0 to 100)
@@ -22,7 +22,7 @@ function netAsset(asset, debt) {
     return (Number(asset) - Number(debt)).toFixed(2);
 }
 
-const ScoreCard = ({ transactions }) => {
+const ScoreCard = memo(({ transactions }) => {
     const [score, setScore] = useState(-1);
     const [accountData, setAccountData] = useState({ income: 0, expense: 0, asset: 0, debt: 0 });
     useEffect(() => {
@@ -31,7 +31,7 @@ const ScoreCard = ({ transactions }) => {
         setScore(getFinancialScore(account.income, account.expense, account.asset, account.debt));
     }, [transactions]);
     return (
-        <div className='w-full h-full border-2 border-gray-400 rounded-lg shadow-lg shadow-gray-600/20 flex flex-col items-center justify-center relative'>
+        <div className='w-full h-full border-2 border-gray-400 rounded-lg shadow-lg shadow-gray-600/20 flex flex-col items-center justify-center relative p-4'>
             <div className='absolute w-full text-center top-8 font-semibold'>
                 Score:
             </div>
@@ -61,6 +61,6 @@ const ScoreCard = ({ transactions }) => {
             </div>
         </div>
     )
-}
+})
 
 export default ScoreCard

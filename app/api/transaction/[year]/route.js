@@ -5,13 +5,16 @@ import { getToken } from "next-auth/jwt";
 export const dynamic = 'force-dynamic' // defaults to force-static
 export async function GET(req, {params}) {
     try {
+        if (isNaN(params.year)) {
+            throw new Error("Param type must be integer");
+        }
         const secret = process.env.NEXTAUTH_SECRET
         const token = await getToken({ req, secret });
 
         const userId = token.id;
 
         await connectToMongoDB();
-        const transactions = params.year ? await getYearlyTransactions(userId, params.year) : [];
+        const transactions = await getYearlyTransactions(userId, params.year);
 
         console.log("Transaction Retrieved Successfully");
         return new NextResponse(JSON.stringify(transactions), { status: 200 });
