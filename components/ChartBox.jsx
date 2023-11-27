@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react'
+import React, { memo, useMemo, useState } from 'react'
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -117,13 +117,13 @@ function prepareData(graphData, year, month, isMonthly) {
         datasets: [
             {
                 label: 'Asset',
-                data: prepareDataPoints(graphData['Income'], dayOrMonth, 'amount'),
+                data: prepareDataPoints(graphData['Asset'], dayOrMonth, 'amount'),
                 borderColor: 'rgb(66, 245, 132)',
                 backgroundColor: 'rgba(66, 245, 132, 0.5)',
             },
             {
                 label: 'Debt',
-                data: prepareDataPoints(graphData['Expense'], dayOrMonth, 'amount'),
+                data: prepareDataPoints(graphData['Debt'], dayOrMonth, 'amount'),
                 borderColor: 'rgb(255, 99, 132)',
                 backgroundColor: 'rgba(255, 99, 132, 0.5)',
             }
@@ -142,18 +142,34 @@ function prepareData(graphData, year, month, isMonthly) {
 
 const ChartBox = memo(({ graphData, year, month, isMonthly }) => {
     const { netIncomeData, netIncomeOptions, netAssetData, netAssetOptions } = useMemo(() => prepareData(graphData, year, month, isMonthly), [graphData]);
-
+    const [showIncomeGraph, setShowIncomeGraph] = useState(true);
     return (
         <div className='w-full h-full p-4 border-2 border-gray-400 rounded-lg shadow-lg shadow-gray-600/20 flex flex-col items-center justify-center relative'>
-            <div className='w-full h-full relative'>
+            <div className='w-full h-full'>
                 {
                     graphData ?
-                        <Line options={netIncomeOptions} data={netIncomeData} />
+                        <Line options={showIncomeGraph ? netIncomeOptions : netAssetOptions} data={showIncomeGraph ? netIncomeData : netAssetData} />
                         :
                         <div className='w-full h-full flex flex-row items-center justify-center'>
                             <p>Nothing To Show</p>
                         </div>
                 }
+            </div>
+
+            {/* Tabs */}
+            <div className='absolute bottom-0 left-1/2 -translate-x-1/2 z-10 flex flex-row items-end justify-center'>
+                <button className={`w-24 h-8 text-sm border-b-0 border-2 font-medium rounded-tl-md
+                    ${showIncomeGraph ? 'text-gray-800 bg-slate-100 border-r-2 border-gray-400 shadow-inner shadow-gray-700/20 pointer-events-none' :
+                        'text-gray-700 border-r-0 border-gray-200 bg-white hover:bg-slate-50'}`}
+                    onClick={(e) => setShowIncomeGraph(true)}>
+                    Net Income
+                </button>
+                <button className={`w-24 h-8 text-sm border-b-0 border-2 font-medium rounded-tr-md
+                    ${!showIncomeGraph ? 'text-gray-800 bg-slate-100 border-l-2 border-gray-400 shadow-inner shadow-gray-700/20 pointer-events-none' :
+                        'text-gray-700 border-l-0 border-gray-200 bg-white hover:bg-slate-50'}`}
+                    onClick={(e) => setShowIncomeGraph(false)}>
+                    Net Asset
+                </button>
             </div>
         </div>
     )
