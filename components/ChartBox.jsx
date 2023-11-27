@@ -21,56 +21,13 @@ ChartJS.register(
     Legend
 );
 
-// const options = {
-//     responsive: true,
-//     plugins: {
-//         legend: {
-//             position: 'top',
-//         },
-//     },
-//     scales: {
-//         y: {
-//             min: 0.00,
-//             max: 100.00,
-//         },
-//         // x: {
-//         //     title: {
-//         //         display: true,
-//         //         text: 'Day'
-//         //     }
-//         // }
-//     }
-// };
-
-// const labels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 20, 22, 23, 24, 25, 26, 27, 28, 29, 30];
-
-// const data = {
-//     labels,
-//     datasets: [
-//         {
-//             label: 'Dataset 1',
-//             data: [
-//                 { x: 1, y: 53.46 },
-//                 { x: 7, y: 32.17 },
-//                 { x: 23, y: 73.46 },
-//             ],
-//             borderColor: 'rgb(255, 99, 132)',
-//             backgroundColor: 'rgba(255, 99, 132, 0.5)',
-//         },
-//         // {
-//         //     label: 'Dataset 2',
-//         //     data: [10.00, 20.00, 30.00, 40.00, 50.00, 60.00, 70.00].reverse(),
-//         //     borderColor: 'rgb(53, 162, 235)',
-//         //     backgroundColor: 'rgba(53, 162, 235, 0.5)',
-//         // },
-//     ],
-// };
-
 function prepareDataPoints(dataArray, xKey, yKey) {
     const output = [];
-    for (let index = 0; index < dataArray.length; index++) {
-        const element = dataArray[index];
-        output.push({ 'x': element[xKey], 'y': element[yKey] });
+    if (dataArray) {
+        for (let index = 0; index < dataArray.length; index++) {
+            const element = dataArray[index];
+            output.push({ 'x': element[xKey], 'y': element[yKey] });
+        }
     }
     return output;
 }
@@ -184,10 +141,6 @@ function prepareData(graphData, year, month, isMonthly) {
 }
 
 const ChartBox = memo(({ graphData, year, month, isMonthly }) => {
-    // if (!graphData) {
-    //     return null;
-    // }
-
     const { netIncomeData, netIncomeOptions, netAssetData, netAssetOptions } = useMemo(() => prepareData(graphData, year, month, isMonthly), [graphData]);
 
     return (
