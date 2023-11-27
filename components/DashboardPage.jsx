@@ -101,7 +101,9 @@ const DashboardPage = () => {
                                             <TransactionRecord
                                                 key={transaction._id}
                                                 transactionData={transaction}
-                                                //onTransactionDeleted={}
+                                                onTransactionDeleted={() => {
+                                                    setTransactionData(state => state.filter(item => item._id !== transaction._id))
+                                                }}
                                             />
                                         )
                                     })

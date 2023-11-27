@@ -5,6 +5,7 @@ import EditForm from './EditForm';
 import { FetchStatus } from '@/lib/utils';
 import axios from 'axios';
 import ActionButton from './ActionButton';
+import { apiPath } from '@/lib/utils';
 
 function transactionNature(type) {
     if (type === 'Income' || type === 'Asset') {
@@ -20,7 +21,7 @@ const TransactionRecord = ({ transactionData, onTransactionDeleted }) => {
     const deleteRecord = async () => {
         setDeletionState(FetchStatus.pending);
         try {
-            const response = await axios.delete(apiPath('transaction/'), transactionData);
+            const response = await axios.delete(apiPath('transaction/'), {data: transactionData});
             if (response.status === 200) {
                 setDeletionState(FetchStatus.success);
                 onTransactionDeleted?.();

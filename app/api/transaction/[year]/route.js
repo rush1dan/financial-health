@@ -5,7 +5,6 @@ import { getToken } from "next-auth/jwt";
 export const dynamic = 'force-dynamic' // defaults to force-static
 export async function GET(req, {params}) {
     try {
-        console.log("TYPE: ", typeof params.year);
         if (isNaN(params.year)) {
             throw new Error("Param type must be integer");
         }
