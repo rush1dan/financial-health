@@ -91,7 +91,7 @@ function getScale(array) {
     min -= halfRange;
     if (min < 0) { min = 0; }
     max += halfRange;
-    return { 'min': Math.floor(min), 'max': Math.round(max) };
+    return { 'suggestedMin': Math.floor(min), 'suggestedMax': Math.round(max) };
 }
 
 function prepareData(graphData, year, month) {
@@ -138,6 +138,15 @@ function prepareData(graphData, year, month) {
     const netIncomeOptions = {
         ...commonOptions,
         scales: {
+            // x: {
+            //     type: 'linear', // Assuming your x-axis is numerical
+            //     position: 'bottom',
+            //     suggestedMin: 0,
+            //     suggestedMax: 30,
+            //     ticks: {
+            //         stepSize: 1, // Set your desired step size here
+            //     }
+            // },
             y: getScale(netIncomeData.datasets[0].data.concat(netIncomeData.datasets[1].data)),
         }
     }
