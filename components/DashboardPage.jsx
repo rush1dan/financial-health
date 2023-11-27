@@ -100,10 +100,8 @@ const DashboardPage = () => {
                                         return (
                                             <TransactionRecord
                                                 key={transaction._id}
-                                                dateOrMonth={transaction.date.split('T')[0]}
-                                                transactionDescription={transaction.description}
-                                                transactionType={transaction.type}
-                                                transactionAmount={transaction.amount}
+                                                transactionData={transaction}
+                                                //onTransactionDeleted={}
                                             />
                                         )
                                     })
