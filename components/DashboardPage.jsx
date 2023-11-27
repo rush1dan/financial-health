@@ -31,7 +31,7 @@ const DashboardPage = () => {
             console.log(response.data);
             if (response.status === 200) {
                 setTransactionData(response.data.transactionData);
-                setGraphData(response.data.graphData[0]);
+                setGraphData(response.data.graphData.length > 0 ? response.data.graphData[0] : null);
                 setFetchState(FetchStatus.success);
             }
         } catch (error) {
@@ -44,9 +44,6 @@ const DashboardPage = () => {
     const [selectedYear, setSelectedYear] = useState(new Date().getUTCFullYear());
 
     useEffect(() => {
-        if (!monthly && selectedMonth) {
-            setSelectedMonth(undefined);
-        }
         getTransactions(monthly ? `${selectedYear}/${selectedMonth}` : `${selectedYear}`);
     }, [selectedPage, selectedMonth, selectedYear]);
 
@@ -71,7 +68,7 @@ const DashboardPage = () => {
                     {/* Chart + Score section */}
                     <div className="w-full flex md:flex-row flex-col items-center justify-center md:gap-x-8 gap-y-4">
                         <div className="w-full max-w-[32rem] h-[20rem]">
-                            <ChartBox graphData={graphData} year={selectedYear} month={selectedMonth}/>
+                            <ChartBox graphData={graphData} year={selectedYear} month={selectedMonth} isMonthly={monthly} />
                         </div>
                         <div className="w-full max-w-[32rem] h-[20rem]">
                             <ScoreCard transactions={transactionData} />

@@ -94,10 +94,14 @@ function getScale(array) {
     return { 'suggestedMin': Math.floor(min), 'suggestedMax': Math.round(max) };
 }
 
-function prepareData(graphData, year, month) {
+function prepareData(graphData, year, month, isMonthly) {
+    if (!graphData) {
+        return { netIncomeData: null, netIncomeOptions: null, netAssetData: null, netAssetOptions: null }
+    }
+
     let labels = [];
     let dayOrMonth = '';
-    if (month) {
+    if (isMonthly) {
         const lastDay = new Date(year, month, 0).getDate();
         for (let index = 1; index <= lastDay; index++) {
             labels.push(index);
@@ -179,13 +183,24 @@ function prepareData(graphData, year, month) {
     return { netIncomeData, netIncomeOptions, netAssetData, netAssetOptions }
 }
 
-const ChartBox = memo(({ graphData, year, month }) => {
-    const { netIncomeData, netIncomeOptions, netAssetData, netAssetOptions } = useMemo(() => prepareData(graphData, year, month), [graphData]);
+const ChartBox = memo(({ graphData, year, month, isMonthly }) => {
+    // if (!graphData) {
+    //     return null;
+    // }
+
+    const { netIncomeData, netIncomeOptions, netAssetData, netAssetOptions } = useMemo(() => prepareData(graphData, year, month, isMonthly), [graphData]);
 
     return (
         <div className='w-full h-full p-4 border-2 border-gray-400 rounded-lg shadow-lg shadow-gray-600/20 flex flex-col items-center justify-center relative'>
             <div className='w-full h-full relative'>
-                <Line options={netIncomeOptions} data={netIncomeData} />
+                {
+                    graphData ?
+                        <Line options={netIncomeOptions} data={netIncomeData} />
+                        :
+                        <div className='w-full h-full flex flex-row items-center justify-center'>
+                            <p>Nothing To Show</p>
+                        </div>
+                }
             </div>
         </div>
     )
