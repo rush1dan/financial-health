@@ -75,7 +75,7 @@ function prepareDataPoints(dataArray, xKey, yKey) {
     return output;
 }
 
-function minMax(array) {
+function getScale(array) {
     let min = Infinity, max = -Infinity;
     for (let index = 0; index < array.length; index++) {
         const element = array[index].y;
@@ -86,6 +86,11 @@ function minMax(array) {
             max = element;
         }
     }
+    const range = max - min;
+    const halfRange = range / 2;
+    min -= halfRange;
+    if (min < 0) { min = 0; }
+    max += halfRange;
     return { 'min': Math.floor(min), 'max': Math.round(max) };
 }
 
@@ -110,11 +115,6 @@ function prepareData(graphData, year, month) {
                 position: 'top',
             },
         },
-        layout: {
-            padding: {
-                left: 10
-            }
-        }
     }
 
     const netIncomeData = {
@@ -138,7 +138,7 @@ function prepareData(graphData, year, month) {
     const netIncomeOptions = {
         ...commonOptions,
         scales: {
-            y: minMax(netIncomeData.datasets[0].data.concat(netIncomeData.datasets[1].data))
+            y: getScale(netIncomeData.datasets[0].data.concat(netIncomeData.datasets[1].data)),
         }
     }
 
@@ -163,7 +163,7 @@ function prepareData(graphData, year, month) {
     const netAssetOptions = {
         ...commonOptions,
         scales: {
-            y: minMax(netAssetData.datasets[0].data.concat(netAssetData.datasets[1].data))
+            y: getScale(netAssetData.datasets[0].data.concat(netAssetData.datasets[1].data))
         }
     }
 
