@@ -22,7 +22,7 @@ const DashboardPage = () => {
     const [transactionData, setTransactionData] = useState([]);
     const [graphData, setGraphData] = useState([]);
 
-    const [fetchState, setFetchState] = useState(FetchStatus.none);
+    const [fetchState, setFetchState] = useState(FetchStatus.pending);
 
     const getTransactions = async (route) => {
         try {
@@ -49,53 +49,49 @@ const DashboardPage = () => {
 
     return (
         <div className='w-full h-full overflow-y-auto'>
-            <div className="block mx-auto w-full max-w-7xl min-h-full px-12 py-4">
+            <LoadingWrapper fetchState={fetchState}>
+                <div className="block mx-auto w-full max-w-7xl min-h-full px-12 py-4">
 
-                {/* Month and Year Button */}
-                <div className="w-full py-4 flex flex-row items-center justify-start gap-x-4">
-                    {
-                        monthly &&
-                        <Dropdown className="w-32 h-12" forceUseTitle={false} defaultOption={getMonthFromNumber(selectedMonth)}
-                            options={months} setOption={(option) => setSelectedMonth(getMonthNumFromMonth(option))}>
+                    {/* Month and Year Button */}
+                    <div className="w-full py-4 flex flex-row items-center justify-start gap-x-4">
+                        {
+                            monthly &&
+                            <Dropdown className="w-32 h-12" forceUseTitle={false} defaultOption={getMonthFromNumber(selectedMonth)}
+                                options={months} setOption={(option) => setSelectedMonth(getMonthNumFromMonth(option))}>
+                            </Dropdown>
+                        }
+                        <Dropdown className="w-32 h-12" forceUseTitle={false} defaultOption={selectedYear}
+                            options={getYears(50)} setOption={(option) => setSelectedYear(Number(option))}>
                         </Dropdown>
+                    </div>
+
+                    {/* Chart + Score section */}
+                    <div className="w-full flex md:flex-row flex-col items-center justify-center md:gap-x-8 gap-y-4">
+                        <div className="w-full max-w-[32rem] h-[20rem]">
+                                <ChartBox graphData={graphData} />
+                        </div>
+                        <div className="w-full max-w-[32rem] h-[20rem]">
+                                <ScoreCard transactions={transactionData} />
+                        </div>
+                    </div>
+
+                    {/* Add Button */}
+                    <button className='block mx-auto w-28 h-12 bg-gray-200 hover:bg-gray-300 border-dashed border-2 border-gray-400 rounded-lg mt-8 py-1' onClick={() => setOpenAddForm(true)}>
+                        <div className='h-full aspect-square relative block mx-auto'>
+                            <Image src='/plus.svg' alt='add' fill />
+                        </div>
+                    </button>
+
+                    {
+                        addFormOpened &&
+                        <Popup className={'w-[32rem] rounded-xl h-[32rem] bg-white overflow-clip'} onClosed={() => setOpenAddForm(false)} popUpHeader={'Add Record'} hidden={!addFormOpened}>
+                            <AddForm onTransactionAdded={(t) => { setOpenAddForm(false); }} />
+                        </Popup>
                     }
-                    <Dropdown className="w-32 h-12" forceUseTitle={false} defaultOption={selectedYear}
-                        options={getYears(50)} setOption={(option) => setSelectedYear(Number(option))}>
-                    </Dropdown>
-                </div>
 
-                {/* Chart + Score section */}
-                <div className="w-full flex md:flex-row flex-col items-center justify-center md:gap-x-8 gap-y-4">
-                    <div className="w-full max-w-[32rem] h-[20rem]">
-                        <LoadingWrapper fetchState={fetchState}>
-                            <ChartBox graphData={graphData} />
-                        </LoadingWrapper>
-                    </div>
-                    <div className="w-full max-w-[32rem] h-[20rem]">
-                        <LoadingWrapper fetchState={fetchState}>
-                            <ScoreCard transactions={transactionData} />
-                        </LoadingWrapper>
-                    </div>
-                </div>
+                    <div className='mt-8'></div>
 
-                {/* Add Button */}
-                <button className='block mx-auto w-28 h-12 bg-gray-200 hover:bg-gray-300 border-dashed border-2 border-gray-400 rounded-lg mt-8 py-1' onClick={() => setOpenAddForm(true)}>
-                    <div className='h-full aspect-square relative block mx-auto'>
-                        <Image src='/plus.svg' alt='add' fill />
-                    </div>
-                </button>
-
-                {
-                    addFormOpened &&
-                    <Popup className={'w-[32rem] rounded-xl h-[32rem] bg-white overflow-clip'} onClosed={() => setOpenAddForm(false)} popUpHeader={'Add Record'} hidden={!addFormOpened}>
-                        <AddForm onTransactionAdded={(t) => { setOpenAddForm(false); }} />
-                    </Popup>
-                }
-
-                <div className='mt-8'></div>
-
-                {/* Transactions */}
-                <LoadingWrapper fetchState={fetchState}>
+                    {/* Transactions */}
                     {
                         transactionData.length > 0 ?
                             <div className='w-full h-fit flex flex-col items-center justify-start gap-y-6'>
@@ -117,8 +113,8 @@ const DashboardPage = () => {
                                 No records yet
                             </div>
                     }
-                </LoadingWrapper>
-            </div>
+                </div>
+            </LoadingWrapper>
         </div>
     )
 }
