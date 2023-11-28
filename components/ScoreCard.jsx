@@ -63,4 +63,5 @@ const ScoreCard = memo(({ transactions }) => {
     )
 })
 
-export default ScoreCard
+ScoreCard.displayName = 'ScoreCard';
+export default ScoreCard;
