@@ -175,4 +175,5 @@ const ChartBox = memo(({ graphData, year, month, isMonthly }) => {
     )
 });
 
+ChartBox.displayName = 'ChartBox';
 export default ChartBox;
