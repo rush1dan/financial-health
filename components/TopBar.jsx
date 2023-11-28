@@ -24,7 +24,7 @@ const TopBar = (props) => {
                         <Image src={'/FinLogo_Circle.png'} alt='logo' fill />
                     </div>
                     <div className='font-semibold text-lg text-gray-400'>
-                        FinHealth
+                        FinDr.
                     </div>
                 </Link>
                 <div className='flex flex-row items-center justify-center gap-x-10'>
