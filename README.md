@@ -1,6 +1,6 @@
 <div align='center'><h1>Financial Health Indicator App</h1></div>
 <div align='center'> 
-<img src='./public/FinLogo_Circle.png' alt='Picture'>
+<img src='./ProjectImage.png' alt='Picture' width='720px' height='auto'>
 </div>
 
 <div align='center'><h3><a href="https://rush1dan-financial-health.netlify.app" target="_blank">View Live Demo</a></h3></div>
@@ -13,11 +13,6 @@ This is a full stack financial health indicator app.
 - Add transaction record
 - Filter by month or year
 - Get a financial score based on transactions
-
-## Yet To Implement
-- Mobile responsiveness
-- Chart showing transation data
-- Circular progress bar around score
 
 ## Dev
 First, install necessary packages:
